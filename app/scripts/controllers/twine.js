@@ -1,5 +1,8 @@
 'use strict';
 
+// Default object to use for $scope.passages
+var DEFAULT_PASSAGES = JSON.parse('[{"title":"Passage 1","text":"This is Passage 1. [[Go to Passage 2|Passage 2]]."},{"title":"Passage 2","text":"This is Passage 2. [[Go to Passage 3|Passage 3]]. Testing: [[<script>alert(\'hello\')</script>Hello, I am trying to inject Javascript. Hope this fails!|Passage 3]] [[This is a bad link and should fail.||Bad Link]]"},{"title":"Passage 3","text":"This is Passage 3. [[Go to Passage 4|Passage 4]]."},{"title":"Passage 4","text":"Jeremy, you suck. [[Go to Passage 5|Passage 5]]."},{"title":"Passage 5","text":"April Fools\'! [[Go back to Passage 1|Passage 1]]."}]');
+
 app.controller('TwineCtrl', function($scope) {
   // Sanitizes the given input to remove HTML.
   $scope.sanitize = function(text) {
@@ -27,8 +30,8 @@ app.controller('TwineCtrl', function($scope) {
     return -1;
   };
 
-  // Takes the text from a passage and replaces its links with the
-  $scope.viewParse = function(text) {
+  // Takes the text from a passage and replaces its links with HTML anchors.
+  $scope.parsePassage = function(text) {
     var open = -1, bar = -1, close = -1;
 
     // Search for a matching pattern
@@ -56,7 +59,8 @@ app.controller('TwineCtrl', function($scope) {
 
         if (linked !== -1) {
           text = text.substring(0, open) +
-            '<a href="" ng-click="changeCurrent(' + linked + ')">' + display + '</a>' +
+            '<a href="" ng-click="changeCurrent(' + linked + ')">' +
+            display + '</a>' +
             text.substring(close + 2);
 
           // Go back to the opening brackets.
@@ -83,7 +87,8 @@ app.controller('TwineCtrl', function($scope) {
     for (var i = 0; i < $scope.passages.length; i++) {
       var pass = $scope.passages[i];
       $scope.edits[i] = {title: pass.title, text: pass.text};
-      $scope.viewPassages[i] = {title: pass.title, text: $scope.viewParse(pass.text)};
+      $scope.viewPassages[i] = {title: pass.title,
+                                text: $scope.parsePassage(pass.text)};
       $scope.editVisibility.push(false);
     }
   };
@@ -138,8 +143,7 @@ app.controller('TwineCtrl', function($scope) {
   }
 
   if (!$scope.passages || $scope.passages.length === 0) {
-    // Default passages.
-    $scope.passages = JSON.parse('[{"title":"Passage 1","text":"This is Passage 1. [[Go to Passage 2|Passage 2]]."},{"title":"Passage 2","text":"This is Passage 2. [[Go to Passage 3|Passage 3]]. Testing: [[<script>alert(\'hello\')</script>Hello, I am trying to inject Javascript. Hope this fails!|Passage 3]] [[This is a bad link and should fail.||Bad Link]]"},{"title":"Passage 3","text":"This is Passage 3. [[Go to Passage 4|Passage 4]]."},{"title":"Passage 4","text":"Jeremy, you suck. [[Go to Passage 5|Passage 5]]."},{"title":"Passage 5","text":"April Fools\'! [[Go back to Passage 1|Passage 1]]."}]');
+    $scope.passages = DEFAULT_PASSAGES;
   }
 
   $scope.passage = {title: '', text: ''};
