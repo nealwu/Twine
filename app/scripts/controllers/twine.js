@@ -1,7 +1,7 @@
 'use strict';
 
 // Default object to use for $scope.passages
-var DEFAULT_PASSAGES = JSON.parse('[{"title":"Passage 1","text":"This is Passage 1. [[Go to Passage 2|Passage 2]]."},{"title":"Passage 2","text":"This is Passage 2. [[Go to Passage 3|Passage 3]]. Testing: [[<script>alert(\'hello\')</script>Hello, I am trying to inject Javascript. Hope this fails!|Passage 3]] [[This is a bad link and should fail.||Bad Link]]"},{"title":"Passage 3","text":"This is Passage 3. [[Go to Passage 4|Passage 4]]."},{"title":"Passage 4","text":"Jeremy, you suck. [[Go to Passage 5|Passage 5]]."},{"title":"Passage 5","text":"April Fools\'! [[Go back to Passage 1|Passage 1]]."}]');
+var DEFAULT_PASSAGES = JSON.parse('[{"title":"Passage 1","text":"This is Passage 1. [[Go to Passage 2|Passage 2]]."},{"title":"Passage 2","text":"This is Passage 2. [[Go to Passage 3|Passage 3]]. Testing: [[<script>alert(\'hello\')</script>Hello, I am trying to inject Javascript. Hope this fails!|Passage 3]] [[This is a bad link and should fail.||Bad Link]]"},{"title":"Passage 3","text":"This is Passage 3. [[Go to Passage 4|Passage 4]]."},{"title":"Passage 4","text":"Jeremy, you suck. Seriously. [[Go to Passage 5|Passage 5]]."},{"title":"Passage 5","text":"April Fools\'! [[Go back to Passage 1|Passage 1]]."}]');
 
 app.controller('TwineCtrl', function($scope) {
   // Sanitizes the given input to remove HTML.
