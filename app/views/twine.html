@@ -4,10 +4,11 @@
   <div class="passage" id="{{ pass.title }}">
     <h3>{{ pass.title }}</h3>
     <p>{{ pass.text }}</p>
-    <a href="" ng-click="openEdits($index)">Edit</a>
+    <a href="" ng-click="toggleEdit($index)">Edit</a>
     |
     <a href="" ng-click="deletePassage($index)">Delete</a>
     <form ng-class="{hidden: !editVisibility[$index]}" ng-submit="editPassage($index)">
+      <br>
       <label for="pass-$index-title">Title</label>
       <input type="text" id="pass-$index-title" ng-model="edits[$index].title" value="{{ pass.title }}" />
       <br>
@@ -18,6 +19,8 @@
     </form>
   </div>
 </div>
+
+<hr>
 
 <h4>Add a new passage:</h4>
 
@@ -30,6 +33,8 @@
   <br>
   <input type="submit" value="Add passage" />
 </form>
+
+<hr>
 
 Passage: {{ passage }}
 <br>

@@ -1,6 +1,7 @@
 'use strict';
 
 app.controller('TwineCtrl', function($scope) {
+  // Set up edit objects (so they can serve as the ng-model in edit forms)
   $scope.copyEditsFromPassages = function() {
     $scope.edits = [];
     $scope.editVisibility = [];
@@ -12,34 +13,41 @@ app.controller('TwineCtrl', function($scope) {
     }
   };
 
+  // Save all of the current passages to localStorage. Should be called at the
+  // end of every function that changes the passages array.
   $scope.savePassages = function() {
     localStorage.setItem('twine', JSON.stringify($scope.passages));
     $scope.copyEditsFromPassages();
   };
 
+  // Adds a new passage to the passages array.
   $scope.submitPassage = function() {
     $scope.passages.push($scope.passage);
     $scope.passage = {text: '', title: ''};
     $scope.savePassages();
   };
 
+  // Removes passages[index].
   $scope.deletePassage = function(index) {
     $scope.passages.splice(index, 1);
     $scope.savePassages();
   };
 
+  // Changes passages[index] to reflect edits[index].
   $scope.editPassage = function(index) {
     $scope.passages[index] = $scope.edits[index];
     $scope.savePassages();
   };
 
+  // Imports the passages array as JSON.
   $scope.importJSON = function() {
     $scope.passages = JSON.parse($scope.json);
     $scope.savePassages();
   };
 
-  $scope.openEdits = function(index) {
-    $scope.editVisibility[index] = true;
+  // Toggles the edit form for a particular passage.
+  $scope.toggleEdit = function(index) {
+    $scope.editVisibility[index] = !$scope.editVisibility[index];
   };
 
   var twine = localStorage.getItem('twine');
@@ -51,6 +59,6 @@ app.controller('TwineCtrl', function($scope) {
   }
 
   $scope.passage = {title: '', text: ''};
-  $scope.copyEditsFromPassages();
   $scope.json = '';
+  $scope.copyEditsFromPassages();
 });

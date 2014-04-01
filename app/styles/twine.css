@@ -1,9 +1,11 @@
+/* Place passages in a box and add spacing */
 .passage {
   border: 2px solid black;
   padding-left: 5px;
   margin-bottom: 10px;
 }
 
+/* Spacing for input forms */
 input, textarea {
   margin-bottom: 10px;
 }
