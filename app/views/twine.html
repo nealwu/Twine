@@ -1,0 +1,42 @@
+<h2>Neal's story</h2>
+
+<div ng-repeat="pass in passages">
+  <div class="passage" id="{{ pass.title }}">
+    <h3>{{ pass.title }}</h3>
+    <p>{{ pass.text }}</p>
+    <a href="" ng-click="openEdits($index)">Edit</a>
+    |
+    <a href="" ng-click="deletePassage($index)">Delete</a>
+    <form ng-class="{hidden: !editVisibility[$index]}" ng-submit="editPassage($index)">
+      <label for="pass-$index-title">Title</label>
+      <input type="text" id="pass-$index-title" ng-model="edits[$index].title" value="{{ pass.title }}" />
+      <br>
+      <label for="pass-$index-text">Text</label>
+      <textarea rows="10" cols="100" id="pass-$index-text" ng-model="edits[$index].text">{{ pass.text }}</textarea>
+      <br>
+      <input type="submit" value="Submit" />
+    </form>
+  </div>
+</div>
+
+<h4>Add a new passage:</h4>
+
+<form ng-submit="submitPassage()">
+  <label for="passage-title">Title</label>
+  <input type="text" id="passage-title" ng-model="passage.title" />
+  <br>
+  <label for="passage-text">Text</label>
+  <textarea rows="10" cols="100" id="passage-text" ng-model="passage.text"></textarea>
+  <br>
+  <input type="submit" value="Add passage" />
+</form>
+
+Passage: {{ passage }}
+<br>
+Passages: {{ passages }}
+
+<form ng-submit="importJSON()">
+  <label for="import-json">Import JSON</label>
+  <input type="text" id="import-json" ng-model="json" />
+  <input type="submit" value="Submit" />
+</form>
