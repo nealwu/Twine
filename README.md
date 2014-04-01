@@ -7,3 +7,5 @@ npm install
 bower install
 grunt serve
 ```
+
+Based off of http://www.auntiepixelante.com/twine/.
