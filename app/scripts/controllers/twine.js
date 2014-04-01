@@ -2,14 +2,16 @@
 
 app.controller('TwineCtrl', function($scope) {
   // Set up edit objects (so they can serve as the ng-model in edit forms)
-  $scope.copyEditsFromPassages = function() {
+  $scope.copyFromPassages = function() {
     $scope.edits = [];
     $scope.editVisibility = [];
+    $scope.viewable = [];
 
     for (var i = 0; i < $scope.passages.length; i++) {
       var pass = $scope.passages[i];
       $scope.edits[i] = {title: pass.title, text: pass.text};
       $scope.editVisibility.push(false);
+      $scope.viewable.push(false);
     }
   };
 
@@ -17,7 +19,7 @@ app.controller('TwineCtrl', function($scope) {
   // end of every function that changes the passages array.
   $scope.savePassages = function() {
     localStorage.setItem('twine', JSON.stringify($scope.passages));
-    $scope.copyEditsFromPassages();
+    $scope.copyFromPassages();
   };
 
   // Adds a new passage to the passages array.
@@ -60,5 +62,5 @@ app.controller('TwineCtrl', function($scope) {
 
   $scope.passage = {title: '', text: ''};
   $scope.json = '';
-  $scope.copyEditsFromPassages();
+  $scope.copyFromPassages();
 });

@@ -10,11 +10,15 @@ var app = angular.module('twineApp', [
 
 app.config(function($routeProvider) {
   $routeProvider
-    .when('/', {
-      templateUrl: 'views/twine.html',
+    .when('/edit', {
+      templateUrl: 'views/edit.html',
+      controller: 'TwineCtrl'
+    })
+    .when('/view', {
+      templateUrl: 'views/view.html',
       controller: 'TwineCtrl'
     })
     .otherwise({
-      redirectTo: '/'
+      redirectTo: '/edit'
     });
 });
