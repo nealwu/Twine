@@ -38,14 +38,14 @@
 
 <hr>
 
-Passage: {{ passage }}
-<br>
-Passages: {{ passages }}
-<br>
-<br>
-
 <form ng-submit="importJSON()">
   <label for="import-json">Import JSON:</label>
   <input type="text" id="import-json" ng-model="json" />
   <input type="submit" value="Import" />
 </form>
+
+<form ng-submit="exportJSON()">
+  <input type="submit" value="Export to JSON" />
+</form>
+
+<textarea rows="10" cols="100" ng-class="{hidden: !jsonVisible}">{{ passages }}</textarea>

@@ -1,6 +1,21 @@
 'use strict';
 
 app.controller('TwineCtrl', function($scope) {
+  // Sanitizes the given input to remove HTML.
+  $scope.sanitize = function(text) {
+    for (var i = 0; i < text.length; i++) {
+      if (text[i] === '&') {
+        text = text.substring(0, i) + '&amp;' + text.substring(i + 1);
+      } else if (text[i] === '<') {
+        text = text.substring(0, i) + '&lt;' + text.substring(i + 1);
+      } else if (text[i] === '>') {
+        text = text.substring(0, i) + '&gt;' + text.substring(i + 1);
+      }
+    }
+
+    return text;
+  };
+
   // Finds the index of a passage given its title.
   $scope.findPassageByTitle = function(title) {
     for (var i = 0; i < $scope.passages.length; i++) {
@@ -34,14 +49,14 @@ app.controller('TwineCtrl', function($scope) {
         }
 
         // String to display
-        var display = text.substring(open + 2, bar);
+        var display = $scope.sanitize(text.substring(open + 2, bar));
         // Title of the passage to link to
         var title = text.substring(bar + 1, close);
         var linked = $scope.findPassageByTitle(title);
 
         if (linked !== -1) {
           text = text.substring(0, open) +
-            '<a ng-click="changeCurrent(' + linked + ')">' + display + '</a>' +
+            '<a href="" ng-click="changeCurrent(' + linked + ')">' + display + '</a>' +
             text.substring(close + 2);
 
           // Go back to the opening brackets.
@@ -105,6 +120,11 @@ app.controller('TwineCtrl', function($scope) {
     $scope.savePassages();
   };
 
+  // Exports the passages array to JSON.
+  $scope.exportJSON = function() {
+    $scope.jsonVisible = true;
+  };
+
   // Toggles the edit form for a particular passage.
   $scope.toggleEdit = function(index) {
     $scope.editVisibility[index] = !$scope.editVisibility[index];
@@ -121,5 +141,6 @@ app.controller('TwineCtrl', function($scope) {
   $scope.passage = {title: '', text: ''};
   $scope.json = '';
   $scope.currentPassage = 0;
+  $scope.jsonVisible = false;
   $scope.copyFromPassages();
 });

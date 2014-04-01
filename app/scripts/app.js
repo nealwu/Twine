@@ -23,11 +23,13 @@ app.config(function($routeProvider) {
     });
 });
 
-app.directive('ngHtmlCompile', function($compile) {
+// Add a new directive to both bind HTML and compile it, for the purpose of
+// enabling links. Based on https://github.com/francisbouvier/ng_html_compile
+app.directive('ngBindHtmlCompile', function($compile) {
   return {
     restrict: 'A',
     link: function(scope, element, attrs) {
-      scope.$watch(attrs.ngHtmlCompile, function(newValue) {
+      scope.$watch(attrs.ngBindHtmlCompile, function(newValue) {
         element.html(newValue);
         $compile(element.contents())(scope);
       });
