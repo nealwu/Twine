@@ -1,4 +1,4 @@
-Welcome! To install, navigate to your folder of choice and run the following:
+Welcome to my Beautiful Twine Project™! To install, navigate to your folder of choice and run the following:
 
 ```
 git clone git@github.com:nealwu/Twine.git
