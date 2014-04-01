@@ -3,6 +3,6 @@
 <div ng-repeat="pass in viewPassages">
   <div class="passage" ng-class="{hidden: $index != currentPassage}" id="{{ pass.title }}">
     <h3>{{ pass.title }}</h3>
-    <p compile ng-bind-html="pass.text"></p>
+    <p compile ng-html-compile="pass.text"></p>
   </div>
 </div>
