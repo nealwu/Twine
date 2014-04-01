@@ -1,3 +1,8 @@
+/* Hide everything with this class */
+.hidden {
+  display: none;
+}
+
 /* Place passages in a box and add spacing */
 .passage {
   border: 2px solid black;

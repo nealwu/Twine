@@ -1,8 +1,8 @@
 <h2>Neal's story</h2>
 
-<div ng-repeat="pass in passages">
-  <div class="passage" ng-class="{hidden: !viewable[$index]}" id="{{ pass.title }}">
+<div ng-repeat="pass in viewPassages">
+  <div class="passage" ng-class="{hidden: $index != currentPassage}" id="{{ pass.title }}">
     <h3>{{ pass.title }}</h3>
-    <p>{{ pass.text }}</p>
+    <p compile ng-bind-html="pass.text"></p>
   </div>
 </div>

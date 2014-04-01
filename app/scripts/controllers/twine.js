@@ -1,17 +1,75 @@
 'use strict';
 
 app.controller('TwineCtrl', function($scope) {
+  // Finds the index of a passage given its title.
+  $scope.findPassageByTitle = function(title) {
+    for (var i = 0; i < $scope.passages.length; i++) {
+      if ($scope.passages[i].title === title) {
+        return i;
+      }
+    }
+
+    return -1;
+  };
+
+  // Takes the text from a passage and replaces its links with the
+  $scope.viewParse = function(text) {
+    var open = -1, bar = -1, close = -1;
+
+    // Search for a matching pattern
+    for (var i = 0; i + 1 < text.length; i++) {
+      if (text[i] === '[' && text[i + 1] === '[') {
+        open = i;
+      }
+
+      if (text[i] === '|') {
+        bar = i;
+      }
+
+      if (text[i] === ']' && text[i + 1] === ']') {
+        close = i;
+
+        if (open === -1 || bar === -1) {
+          continue;
+        }
+
+        // String to display
+        var display = text.substring(open + 2, bar);
+        // Title of the passage to link to
+        var title = text.substring(bar + 1, close);
+        var linked = $scope.findPassageByTitle(title);
+
+        if (linked !== -1) {
+          text = text.substring(0, open) +
+            '<a ng-click="changeCurrent(' + linked + ')">' + display + '</a>' +
+            text.substring(close + 2);
+
+          // Go back to the opening brackets.
+          i = open;
+          open = bar = close = -1;
+        }
+      }
+    }
+
+    return text;
+  };
+
+  // Changes the current viewable passage to index.
+  $scope.changeCurrent = function(index) {
+    $scope.currentPassage = index;
+  };
+
   // Set up edit objects (so they can serve as the ng-model in edit forms)
   $scope.copyFromPassages = function() {
     $scope.edits = [];
     $scope.editVisibility = [];
-    $scope.viewable = [];
+    $scope.viewPassages = [];
 
     for (var i = 0; i < $scope.passages.length; i++) {
       var pass = $scope.passages[i];
       $scope.edits[i] = {title: pass.title, text: pass.text};
+      $scope.viewPassages[i] = {title: pass.title, text: $scope.viewParse(pass.text)};
       $scope.editVisibility.push(false);
-      $scope.viewable.push(false);
     }
   };
 
@@ -62,5 +120,6 @@ app.controller('TwineCtrl', function($scope) {
 
   $scope.passage = {title: '', text: ''};
   $scope.json = '';
+  $scope.currentPassage = 0;
   $scope.copyFromPassages();
 });

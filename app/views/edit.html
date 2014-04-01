@@ -33,7 +33,7 @@
   <label for="passage-text">Text</label>
   <textarea rows="10" cols="100" id="passage-text" ng-model="passage.text"></textarea>
   <br>
-  <input type="submit" value="Add passage" />
+  <input type="submit" value="Add" />
 </form>
 
 <hr>
@@ -41,9 +41,11 @@
 Passage: {{ passage }}
 <br>
 Passages: {{ passages }}
+<br>
+<br>
 
 <form ng-submit="importJSON()">
-  <label for="import-json">Import JSON</label>
+  <label for="import-json">Import JSON:</label>
   <input type="text" id="import-json" ng-model="json" />
-  <input type="submit" value="Submit" />
+  <input type="submit" value="Import" />
 </form>
